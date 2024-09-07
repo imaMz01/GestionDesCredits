@@ -1,11 +1,12 @@
 package GestionCresdits.services;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.stereotype.Service;
 
-import GestionCresdits.entities.Achat;
+import GestionCresdits.Mappers.PaiementMapper;
+import GestionCresdits.dtos.PaiementDto;
 import GestionCresdits.entities.Paiement;
 import GestionCresdits.repositories.PaiementRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,38 +18,43 @@ public class PaiementServiceImp implements PaiementService{
 	private final PaiementRepository repo;
 
 	@Override
-	public Paiement add(Paiement c) {
+	public PaiementDto add(PaiementDto c) {
 		// TODO Auto-generated method stub
-		return repo.save(c);
+		Paiement saved= repo.save(PaiementMapper.mapper.paiementDtoToPaiement(c));
+		return PaiementMapper.mapper.paiementToPaiementDto(saved);
 	}
 
 	@Override
-	public List<Paiement> list() {
+	public List<PaiementDto> list() {
 		// TODO Auto-generated method stub
-		return (List<Paiement>) repo.findAll();
+		List<Paiement> paiement = (List<Paiement>) repo.findAll();
+		return PaiementMapper.mapper.paiementToPaiementDto(paiement);
 	}
 
 	@Override
-	public Paiement update(Paiement c) {
+	public PaiementDto update(PaiementDto c) {
 		// TODO Auto-generated method stub
-		Paiement cl=repo.findById(c.getId()).orElseThrow(()->new RuntimeException("Paiement not found "));
-		cl.setAchatt(c.getAchatt());
-		cl.setDate(c.getDate());
-		cl.setMontant(c.getMontant());
-		return repo.save(cl);
+		Paiement p= PaiementMapper.mapper.paiementDtoToPaiement(c);
+		Paiement cl=repo.findById(p.getId()).orElseThrow(()->new RuntimeException("Paiement not found "));
+		cl.setAchatt(p.getAchatt());
+		cl.setDate(p.getDate());
+		cl.setMontant(p.getMontant());
+		Paiement saved = repo.save(cl);
+		return PaiementMapper.mapper.paiementToPaiementDto(saved);
 	}
 
 	@Override
-	public List<Paiement> delete(Long id) {
+	public List<PaiementDto> delete(Long id) {
 		// TODO Auto-generated method stub
 		repo.deleteById(id);
 		return list();
 	}
 
 	@Override
-	public Paiement findById(Long id) {
+	public PaiementDto findById(Long id) {
 		// TODO Auto-generated method stub
-		return repo.findById(id).orElseThrow(()->new RuntimeException("Paiement not found "));
+		Paiement p = repo.findById(id).orElseThrow(()->new RuntimeException("Paiement not found "));
+		return PaiementMapper.mapper.paiementToPaiementDto(p);
 	}
 	
 	

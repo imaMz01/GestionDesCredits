@@ -1,10 +1,12 @@
 package GestionCresdits.services;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.stereotype.Service;
 
+import GestionCresdits.Mappers.ClientMapper;
+import GestionCresdits.dtos.ClientDto;
 import GestionCresdits.entities.Client;
 import GestionCresdits.repositories.ClientRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,40 +18,45 @@ public class ClientServiceImp implements ClientService{
 	private final ClientRepository repo;
 
 	@Override
-	public Client add(Client c) {
+	public ClientDto add(ClientDto c) {
 		// TODO Auto-generated method stub
-		return repo.save(c);
+		Client client=ClientMapper.mapper.clientDtoToClient(c);
+		Client saved = repo.save(client);
+		return ClientMapper.mapper.clientToClientDto(saved);
 	}
 
 	@Override
-	public List<Client> list() {
+	public List<ClientDto> list() {
 		// TODO Auto-generated method stub
-		return (List<Client>) repo.findAll();
+		List<Client> clients = (List<Client>) repo.findAll();
+		return ClientMapper.mapper.clientToClientDto(clients);
 	}
 
 	@Override
-	public Client update(Client c) {
+	public ClientDto update(ClientDto c) {
 		// TODO Auto-generated method stub
-		Client cl=repo.findById(c.getId()).orElseThrow(()->new RuntimeException("Client not found "));
-		cl.setNom(c.getNom());
-		cl.setAdresse(c.getAdresse());
-		cl.setPrenom(c.getPrenom());
-		cl.setTel(c.getTel());
-		
-		return repo.save(cl);
+		Client client = ClientMapper.mapper.clientDtoToClient(c);
+		Client cl=repo.findById(client.getId()).orElseThrow(()->new RuntimeException("Client not found "));
+		cl.setNom(client.getNom());
+		cl.setAdresse(client.getAdresse());
+		cl.setPrenom(client.getPrenom());
+		cl.setTel(client.getTel());
+		Client saved = repo.save(cl);
+		return ClientMapper.mapper.clientToClientDto(saved);
 	}
 
 	@Override
-	public List<Client> delete(Long id) {
+	public List<ClientDto> delete(Long id) {
 		// TODO Auto-generated method stub
 		repo.deleteById(id);
 		return list();
 	}
 
 	@Override
-	public Client findById(Long id) {
+	public ClientDto findById(Long id) {
 		// TODO Auto-generated method stub
-		return repo.findById(id).orElseThrow(()->new RuntimeException("Client not found "));
+		Client client = repo.findById(id).orElseThrow(()->new RuntimeException("Client not found "));
+		return ClientMapper.mapper.clientToClientDto(client);
 	}
 	
 }

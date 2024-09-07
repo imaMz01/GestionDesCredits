@@ -2,13 +2,13 @@ package GestionCresdits.services;
 
 import java.util.List;
 
-import GestionCresdits.entities.Client;
+import GestionCresdits.dtos.ClientDto;
 
 public interface ClientService {
 
-	public Client add(Client c);
-	public List<Client> list();
-	public Client update(Client c);
-	public List<Client> delete(Long id);
-	public Client findById(Long id);
+	public ClientDto add(ClientDto c);
+	public List<ClientDto> list();
+	public ClientDto update(ClientDto c);
+	public List<ClientDto> delete(Long id);
+	public ClientDto findById(Long id);
 }

@@ -2,15 +2,15 @@ package GestionCresdits.services;
 
 import java.util.List;
 
-import GestionCresdits.entities.Achat;
+import GestionCresdits.dtos.AchatDto;
 
 
 public interface AchatService {
 
-	public Achat add(Achat c);
-	public List<Achat> list();
-	public Achat update(Achat c);
-	public List<Achat> delete(Long id);
-	public Achat findById(Long id);
-	public Achat updateMontantRestant(Long id,double m);
+	public AchatDto add(AchatDto c);
+	public List<AchatDto> list();
+	public AchatDto update(AchatDto c);
+	public List<AchatDto> delete(Long id);
+	public AchatDto findById(Long id);
+	public AchatDto updateMontantRestant(Long id,double m);
 }
