@@ -35,8 +35,18 @@ public class Achat {
 	@ManyToOne
 	private Client client;
 	@OneToMany(mappedBy = "achatt")
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private List<Paiement> paiements=new ArrayList<Paiement>();
 	@OneToMany(mappedBy = "achat", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private List<Achat_Produit> achatsProduit=new ArrayList<Achat_Produit>();
+	public Achat(Long id, double montantPaye, Client client) {
+		super();
+		this.id = id;
+		this.montant = 0;
+		this.montantPaye = montantPaye;
+		this.soldeRestant = montant - montantPaye;
+		this.client = client;
+	}
+	
 }

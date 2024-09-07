@@ -13,4 +13,5 @@ public interface AchatService {
 	public List<AchatDto> delete(Long id);
 	public AchatDto findById(Long id);
 	public AchatDto updateMontantRestant(Long id,double m);
+	public AchatDto updateMontant(Long id,double m);
 }

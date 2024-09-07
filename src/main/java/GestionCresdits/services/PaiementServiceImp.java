@@ -1,11 +1,14 @@
 package GestionCresdits.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
 import org.springframework.stereotype.Service;
 
+import GestionCresdits.Mappers.AchatMapper;
 import GestionCresdits.Mappers.PaiementMapper;
+import GestionCresdits.dtos.AchatDto;
 import GestionCresdits.dtos.PaiementDto;
 import GestionCresdits.entities.Paiement;
 import GestionCresdits.repositories.PaiementRepository;
@@ -16,11 +19,20 @@ import lombok.RequiredArgsConstructor;
 public class PaiementServiceImp implements PaiementService{
 
 	private final PaiementRepository repo;
+	private final AchatServiceImp sera;
 
 	@Override
 	public PaiementDto add(PaiementDto c) {
 		// TODO Auto-generated method stub
-		Paiement saved= repo.save(PaiementMapper.mapper.paiementDtoToPaiement(c));
+		Paiement p = PaiementMapper.mapper.paiementDtoToPaiement(c);
+		if(p.getAchatt().getSoldeRestant() == 0) {
+			throw new  RuntimeException("Votre crédit est déjà payé");
+		}
+		System.out.println(LocalDateTime.now());
+		p.setDate(LocalDateTime.now());
+		System.out.println(p.getDate());
+		AchatDto achat =sera.updateMontantRestant(p.getAchatt().getId(), p.getMontant());
+		Paiement saved= repo.save(p);
 		return PaiementMapper.mapper.paiementToPaiementDto(saved);
 	}
 

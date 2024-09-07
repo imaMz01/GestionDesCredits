@@ -3,15 +3,18 @@ package GestionCresdits.entities;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Getter
@@ -23,12 +26,6 @@ public class Paiement {
 	private Long id;
 	private double montant;
 	private LocalDateTime date;
-	public Paiement(Long id, double montant) {
-		super();
-		this.id = id;
-		this.montant = montant;
-		this.date = LocalDateTime.now();
-	}
 	@ManyToOne
 	private Achat achatt;
 	

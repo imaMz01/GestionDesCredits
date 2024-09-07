@@ -63,7 +63,18 @@ public class AchatServiceImp implements AchatService{
 	public AchatDto updateMontantRestant(Long id,double m) {
 		// TODO Auto-generated method stub
 		Achat cl=repo.findById(id).orElseThrow(()->new RuntimeException("Achat not found "));
-		cl.setSoldeRestant(m);
+		cl.setMontantPaye(cl.getMontantPaye()+m);
+		cl.setSoldeRestant(cl.getMontant()-cl.getMontantPaye());
+		Achat saved = repo.save(cl);
+		return AchatMapper.mapper.achatToAchatDto(saved);
+	}
+
+	@Override
+	public AchatDto updateMontant(Long id, double m) {
+		// TODO Auto-generated method stub
+		Achat cl=repo.findById(id).orElseThrow(()->new RuntimeException("Achat not found "));
+		cl.setMontant(cl.getMontant()+m);
+		cl.setSoldeRestant(cl.getMontant()-cl.getMontantPaye());
 		Achat saved = repo.save(cl);
 		return AchatMapper.mapper.achatToAchatDto(saved);
 	}

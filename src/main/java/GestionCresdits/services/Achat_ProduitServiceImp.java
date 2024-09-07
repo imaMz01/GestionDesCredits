@@ -33,6 +33,7 @@ public class Achat_ProduitServiceImp implements Achat_ProduitService{
 		Achat_Produit_Id id=new Achat_Produit_Id(achatProduit.getProduit().getId(), achatProduit.getAchat().getId());
 		achatProduit.setId(id);
 		Achat_Produit saved = repo.save(achatProduit);
+		sera.updateMontant(saved.getAchat().getId(), saved.getQuantite()*saved.getProduit().getPrix());
 		return Achat_ProduitMapper.mapper.achatProduitToAchatProduitDto(saved);
 	}
 
